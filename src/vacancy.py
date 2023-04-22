@@ -17,4 +17,4 @@ class Vacancy():
         return f"name: {self.name},\n" \
                f"url: {self.url},\n" \
                f"salary:{self.salary},\n" \
-               f"description: {self.description}" \
+               f"description: {self.description}"

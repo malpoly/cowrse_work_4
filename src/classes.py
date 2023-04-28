@@ -1,7 +1,5 @@
 import json
 import requests
-import os.path
-import re
 from abc import ABC, abstractmethod
 
 
@@ -176,12 +174,6 @@ class JSONSaver(Save):
                                  reverse=True),file, ensure_ascii=False, indent=4)
 
 
-test_sj = SJAPI()
-my_test_sj = test_sj.get_vacancy("python")
-test_hh = HHAPI()
-my_test_hh = test_hh.get_vacancy("python")
-test_json_hh = JSONSaver()
-test_json_hh.save_json(my_test_hh, my_test_sj)
 
 
 

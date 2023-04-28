@@ -1,3 +1,4 @@
+import json
 from classes import Engine, Vacancy, HHAPI, SJAPI, Save, JSONSaver
 
 
@@ -42,7 +43,29 @@ def get_information(website, keyword):
 def write_json(hh_vacancy, sj_vacancy):
     """
     Функция записывает данные по вакансиям в файл json
-    :return:
+    :return: записанный файл json
     """
     new_file = JSONSaver()
     return new_file.save_json(hh_vacancy, sj_vacancy)
+
+def salary_filter():
+    """
+    Открывает записанный файл с вакансиями, перебирает вакансии, оставляет только те,
+    которые подходят по зарплате, указанной пользователем
+    :param salary_input: требуемая зарплата
+    :return: новый список вакансий, с требуемой зарплатой
+    """
+    salary_input = input(f'Укажите требуемую зарплату, в рублях,: ')
+
+    with open("VacancyJson", 'r', encoding='utf-8') as file:
+        all_vacancy = json.load(file)
+
+    good_salary = [] #список для вакансий с подходящей зарплатой
+
+    for vacancy in all_vacancy:
+        if vacancy["salary_from"] >= int(salary_input):
+            good_salary.append(vacancy)
+
+    with open("VacancyJson", 'w', encoding='utf-8') as file:
+        json.dump(good_salary, file, ensure_ascii=False, indent=4)
+

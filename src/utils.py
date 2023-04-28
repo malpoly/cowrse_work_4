@@ -4,6 +4,7 @@ from classes import Engine, Vacancy, HHAPI, SJAPI, Save, JSONSaver
 def user_interaction():
     """
     Функция для получения от пользователя данных для запроса поиска вакансии на ресурсах
+    :return: website - данные по платформе поиска вакансий, keyword -  кодовое слово для поиска
     """
     while True:
         website = input(
@@ -21,5 +22,27 @@ def user_interaction():
         return 'stop'
     return website, keyword
 
+def get_information(website, keyword):
+    """
+    Функция для получения информации с вебсайтов
+    :return:
+    """
+    if website == '1':
+        hh = HHAPI()
+        return hh.get_vacancy(keyword), None
+    elif website == '2':
+        sj = SJAPI()
+        return None, sj.get_vacancy(keyword)
+    else:
+        hh = HHAPI()
+        sj = SJAPI()
+        return hh.get_vacancy(keyword), sj.get_vacancy(keyword)
 
-#my_test = user_interaction()
+
+def write_json(hh_vacancy, sj_vacancy):
+    """
+    Функция записывает данные по вакансиям в файл json
+    :return:
+    """
+    new_file = JSONSaver()
+    return new_file.save_json(hh_vacancy, sj_vacancy)

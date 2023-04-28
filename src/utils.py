@@ -55,7 +55,7 @@ def salary_filter():
     :param salary_input: требуемая зарплата
     :return: новый список вакансий, с требуемой зарплатой
     """
-    salary_input = input(f'Укажите требуемую зарплату, в рублях,: ')
+    salary_input = input(f'Укажите требуемую зарплату, в рублях: ')
 
     with open("VacancyJson", 'r', encoding='utf-8') as file:
         all_vacancy = json.load(file)
@@ -69,3 +69,35 @@ def salary_filter():
     with open("VacancyJson", 'w', encoding='utf-8') as file:
         json.dump(good_salary, file, ensure_ascii=False, indent=4)
 
+
+def description_filter():
+    """ Поиск вакансий по заданным словам в созданном файле json. Возвращает новый файл"""
+    words = input(f'Введите слово для поиска в описании: ')
+    description_vacancy = []
+    with open("VacancyJson", 'r', encoding='utf-8') as file:
+        all_vacancy = json.load(file)
+    for vac in all_vacancy:
+        if isinstance(vac['description'], str):
+            if words.lower() in vac['description'].lower():
+                description_vacancy.append(vac)
+    with open("VacancyJson", 'w', encoding='utf-8') as file:
+        json.dump(description_vacancy, file, ensure_ascii=False, indent=4)
+
+
+def top_vacancy():
+    """
+    Возвращает заданное колличество вакансий
+    """
+    print('Введите количество вакансий для просмотра:')
+    n = input()
+    new_vacancy = []
+    with open("VacancyJson", 'r', encoding='utf-8') as file:
+        all_vacancy = json.load(file)
+    if int(n) >= len(all_vacancy):
+        new_vacancy = all_vacancy
+    else:
+        for vacancy in all_vacancy:
+            while int(n) > len(new_vacancy):
+                new_vacancy.append(vacancy)
+    with open("VacancyJson", 'w', encoding='utf-8') as file:
+        json.dump(new_vacancy, file, ensure_ascii=False, indent=4)
